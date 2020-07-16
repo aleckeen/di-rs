@@ -3,11 +3,11 @@ use std::path::PathBuf;
 
 use crate::home_dir;
 
-const XDG_CONFIG_HOME: &'static str = "XDG_CONFIG_HOME";
+const CONFIG_HOME: &'static str = "XDG_CONFIG_HOME";
 
-pub fn xdg_config_home() -> Option<PathBuf>
+pub fn config_home() -> Option<PathBuf>
 {
-    env::var_os(XDG_CONFIG_HOME)
+    env::var_os(CONFIG_HOME)
         .and_then(|p| {
             if p.is_empty() {
                 home_dir()
