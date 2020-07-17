@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use di_rs;
+use di_rs::{self, xdg};
 
 fn into_str(p: Option<PathBuf>) -> String
 {
@@ -10,22 +10,18 @@ fn into_str(p: Option<PathBuf>) -> String
 
 fn main()
 {
+    println!("home_dir() -> {}", into_str(di_rs::home_dir()));
     println!();
     println!(
-        "di_rs::home_dir() ---------> {}",
-        into_str(di_rs::home_dir())
+        "xdg::get_directory(Config) -> {}",
+        into_str(xdg::get_directory(xdg::Directory::Config, ""))
     );
     println!(
-        "di_rs::xdg::config_home() -> {}",
-        into_str(di_rs::xdg::config_home())
+        "xdg::get_directory(Cache) --> {}",
+        into_str(xdg::get_directory(xdg::Directory::Cache, ""))
     );
     println!(
-        "di_rs::xdg::cache_home() --> {}",
-        into_str(di_rs::xdg::cache_home())
+        "xdg::get_directory(Data) ---> {}",
+        into_str(xdg::get_directory(xdg::Directory::Data, ""))
     );
-    println!(
-        "di_rs::xdg::data_home() ---> {}",
-        into_str(di_rs::xdg::data_home())
-    );
-    println!();
 }
