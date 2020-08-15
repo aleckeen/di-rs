@@ -9,34 +9,31 @@ const DATA_HOME: &'static str = "XDG_DATA_HOME";
 
 pub enum Directory
 {
-    Config,
-    Cache,
-    Data,
+  Config,
+  Cache,
+  Data,
 }
 
-pub fn get_directory<P: AsRef<Path>>(
-    dir: Directory,
-    suffix: P,
-) -> Option<PathBuf>
+pub fn get_directory<P: AsRef<Path>>(dir: Directory, suffix: P) -> Option<PathBuf>
 {
-    let key = match dir {
-        Directory::Config => CONFIG_HOME,
-        Directory::Cache => CACHE_HOME,
-        Directory::Data => DATA_HOME,
-    };
-    env::var_os(key)
-        .and_then(|p| {
-            if p.is_empty() {
-                home_dir().and_then(|h| {
-                    Some(h.join(match dir {
-                        Directory::Config => ".config",
-                        Directory::Cache => ".cache",
-                        Directory::Data => ".local/share",
-                    }))
-                })
-            } else {
-                Some(PathBuf::from(p))
-            }
+  let key = match dir {
+    Directory::Config => CONFIG_HOME,
+    Directory::Cache => CACHE_HOME,
+    Directory::Data => DATA_HOME,
+  };
+  env::var_os(key)
+    .and_then(|p| {
+      if p.is_empty() {
+        home_dir().and_then(|h| {
+          Some(h.join(match dir {
+            Directory::Config => ".config",
+            Directory::Cache => ".cache",
+            Directory::Data => ".local/share",
+          }))
         })
-        .map(|p| p.join(suffix))
+      } else {
+        Some(PathBuf::from(p))
+      }
+    })
+    .map(|p| p.join(suffix))
 }
