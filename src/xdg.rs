@@ -1,4 +1,3 @@
-use std::env;
 use std::path::{Path, PathBuf};
 
 use crate::home_dir;
@@ -21,7 +20,7 @@ pub fn get_directory<P: AsRef<Path>>(dir: Directory, suffix: P) -> Option<PathBu
     Directory::Cache => CACHE_HOME,
     Directory::Data => DATA_HOME,
   };
-  env::var_os(key)
+  std::env::var_os(key)
     .and_then(|p| {
       if p.is_empty() {
         home_dir().and_then(|h| {
